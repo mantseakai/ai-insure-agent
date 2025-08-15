@@ -1,0 +1,97 @@
+# Dependencies
+*/node_modules/
+# Ignore node_modules in both backend and frontend directories
+# This is to ensure that the project does not include any installed packages
+# that are not necessary for version control.
+# This helps to keep the repository clean and avoids potential conflicts with
+# different environments or package versions.
+# It also prevents large files from being tracked, which can slow down the repository.
+# This is a common practice in Node.js projects to avoid committing dependencies.
+# The following lines ensure that node_modules in both backend and frontend directories are ignored.
+backend/node_modules/
+frontend/node_modules/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables 
+backend/.env
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+backend/.env.local
+backend/.env.development.local 
+backend/.env.test.local
+backend/.env.production.local
+# Ignore all environment files
+**/*.env
+**/*.env.local
+**/*.env.development.local
+**/*.env.test.local
+**/*.env.production.local   
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+dist/
+build/
+out/
+
+# Database
+*.db
+*.sqlite
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary folders
+tmp/
+temp/
+
+# Prisma
+prisma/migrations/dev.db*
+
+# Upload directories (if you have file uploads)
+uploads/
+public/uploads/
+
+# API keys and secrets (double protection)
+**/secrets/
+**/*.key
+**/*.pem
+config/secrets.json
+
+# Docker
+docker-compose.override.yml
