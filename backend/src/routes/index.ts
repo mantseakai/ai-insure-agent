@@ -2,6 +2,8 @@ import { Router } from 'express';
 import chatRoutes from './chat';
 import leadsRoutes from './leads';
 import enhancedChatRoutes from './enhanced-chat';
+import whatsappRoutes from './whatsapp';
+
 
 
 const router = Router();
@@ -10,6 +12,8 @@ const router = Router();
 router.use('/chat/v2', enhancedChatRoutes);  // New V2 routes
 router.use('/chat', chatRoutes);
 router.use('/leads', leadsRoutes);
+router.use('/whatsapp', whatsappRoutes);     // WhatsApp routes
+
 
 
 // Health check for the API routes
@@ -20,7 +24,8 @@ router.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
     routes: {
       chat: '/api/chat',
-      leads: '/api/leads'
+      leads: '/api/leads',
+      whatsapp: '/api/whatsapp'
     }
   });
 });

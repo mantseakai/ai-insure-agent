@@ -14,7 +14,29 @@ import { notFound } from './middleware/notFound';
 const app = express();
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles
+      scriptSrc: ["'self'", "'unsafe-inline'"], // Allow inline scripts for QR pages
+      // Allow images from Google Charts, QR Server APIs, and data URLs
+      imgSrc: [
+        "'self'", 
+        "data:", 
+        "https://chart.googleapis.com",
+        "https://api.qrserver.com",
+        "https://chart.googleapis.com",
+        "blob:"
+      ],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'none'"],
+    },
+  },
+}));
 
 // CORS configuration
 const corsOptions = {
