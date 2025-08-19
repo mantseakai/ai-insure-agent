@@ -1,3 +1,4 @@
+// backend/src/routes/chat.ts
 import { Router, Request, Response } from 'express';
 import AIService from '../services/AIService';
 import { validateChatMessage } from '../middleware/validation';
