@@ -9,14 +9,13 @@ const leadService = new LeadService();
 router.post('/capture', validateLeadCapture, async (req: Request, res: Response) => {
   try {
     const leadData = req.body;
-    const lead = await leadService.createLead(leadData);
+    const lead = await leadService.captureLead(leadData);
 
     res.status(201).json({
       success: true,
       data: {
-        leadId: lead.id,
-        message: 'Lead captured successfully',
-        nextSteps: lead.nextSteps
+        leadId: lead.leadId,
+        message: 'Lead captured successfully'
       }
     });
 
@@ -33,7 +32,7 @@ router.post('/capture', validateLeadCapture, async (req: Request, res: Response)
 router.get('/:leadId', async (req: Request, res: Response) => {
   try {
     const { leadId } = req.params;
-    const lead = await leadService.getLeadById(leadId);
+    const lead = await leadService.getLead(leadId);
 
     if (!lead) {
       return res.status(404).json({
