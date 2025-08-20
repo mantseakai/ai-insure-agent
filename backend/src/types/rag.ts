@@ -11,6 +11,7 @@ export interface QueryContext {
   stage?: string;
   budget?: string;
   personalityType?: string;
+  age?: number;
 }
 
 export interface AIAnalysis {
@@ -28,4 +29,5 @@ export interface AIAnalysis {
   leadReadiness?: string;
   conversationStage?: string;
   leadQualificationNotes?: string;
+  entityType: string;
 }

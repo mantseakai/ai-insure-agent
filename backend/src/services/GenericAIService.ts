@@ -142,19 +142,12 @@ export class GenericAIService {
         messageAnalysis
       );
 
-      
-
       // Update conversation
       conversation.messages.push({
         role: 'assistant',
         content: response.message,
         timestamp: new Date(),
-        metadata: { 
-          confidence: response.confidence, 
-          leadScore: response.leadScore,
-          ragContext: ragResult?.context ? 'knowledge_found' : 'no_knowledge',
-          usedKnowledge: ragResult?.metadata || {}
-        }
+        metadata: { confidence: response.confidence, leadScore: response.leadScore }
       });
 
       conversation.leadScore = response.leadScore;
@@ -354,7 +347,7 @@ DOMAIN: ${this.domainConfig.domain}
 CUSTOMER MESSAGE: "${message}"
 
 KNOWLEDGE BASE CONTEXT:
-${ragResult?.context || 'No specific knowledge found - provide general helpful information about ' + this.domainConfig.domain}
+${ragResult?.context || 'No relevant knowledge found'}
 
 ${databaseResults ? `DATABASE RESULTS:
 ${JSON.stringify(databaseResults, null, 2)}` : ''}
@@ -371,17 +364,12 @@ ${conversationHistory}
 DOMAIN-SPECIFIC INSTRUCTIONS:
 ${domainInstructions}
 
-RAG METADATA: ${ragResult?.metadata ? JSON.stringify(ragResult.metadata) : 'No specific knowledge metadata'}
-
 Generate a helpful, personalized response that:
-1. Uses accurate domain knowledge from the knowledge base when available
-2. Addresses the customer's specific intent and emotional state
+1. Uses accurate domain knowledge
+2. Addresses the customer's specific intent
 3. Moves the conversation forward appropriately
 4. Follows domain-specific tone and style guidelines
 5. Includes relevant ${this.domainConfig.domain} context
-6. References specific knowledge when available, or provides general guidance when not
-
-${ragResult?.confidence > 0.8 ? 'HIGH CONFIDENCE: Use the knowledge base information prominently in your response.' : ragResult?.confidence > 0.5 ? 'MEDIUM CONFIDENCE: Reference knowledge base information but supplement with general knowledge.' : 'LOW CONFIDENCE: Provide general helpful information and ask clarifying questions.'}
 `;
   }
 
@@ -592,7 +580,8 @@ ${ragResult?.confidence > 0.8 ? 'HIGH CONFIDENCE: Use the knowledge base informa
   /**
    * Calculate lead score based on domain-specific criteria
    */
-  /*private calculateLeadScore(analysis: any, conversation: any): number {
+  
+  /** private calculateLeadScore(analysis: any, conversation: any): number {
     const scoreWeights = this.domainConfig.leadScoringWeights || {};
     let score = conversation.leadScore || 0;
 
@@ -604,15 +593,17 @@ ${ragResult?.confidence > 0.8 ? 'HIGH CONFIDENCE: Use the knowledge base informa
     });
 
     return Math.min(100, Math.max(0, score));
-  }*/
+  } *
 
   /**
    * Determine if lead should be captured based on domain criteria
    */
-  /*private shouldCaptureLead(analysis: any, conversation: any): boolean {
+
+  /*
+  private shouldCaptureLead(analysis: any, conversation: any): boolean {
     const captureThreshold = this.domainConfig.leadCaptureThreshold || 70;
     return conversation.leadScore >= captureThreshold && analysis.leadReadiness === 'high';
-  }*/
+  }  */
 
   /**
    * Generate business logic response (e.g., for quotes, calculations, recommendations)

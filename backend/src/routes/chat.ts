@@ -1,10 +1,28 @@
-// backend/src/routes/chat.ts
+// Updated Chat Route - Compatible with Generic Architecture
+// File: backend/src/routes/chat.ts
+
 import { Router, Request, Response } from 'express';
-import AIService from '../services/AIService';
+import GenericAIServiceWrapper from '../services/GenericAIServiceWrapper';
+import { InsuranceDomainConfig } from '../config/InsuranceDomainConfig';
 import { validateChatMessage } from '../middleware/validation';
 
 const router = Router();
-const aiService = new AIService();
+let aiService: GenericAIServiceWrapper | null = null;
+
+// Initialize AI Service with backward compatibility
+const initializeAIService = async () => {
+  if (!aiService) {
+    try {
+      aiService = new GenericAIServiceWrapper(InsuranceDomainConfig);
+      await aiService.initialize();
+      console.log('✅ Original Chat Route AI Service initialized with generic wrapper');
+    } catch (error) {
+      console.error('❌ Failed to initialize AI Service for chat route:', error);
+      throw error;
+    }
+  }
+  return aiService;
+};
 
 // Chat endpoint
 router.post('/message', validateChatMessage, async (req: Request, res: Response) => {
@@ -13,17 +31,18 @@ router.post('/message', validateChatMessage, async (req: Request, res: Response)
 
     console.log(`Processing message from user ${userId}: ${message}`);
 
-    const response = await aiService.processMessage(message, userId, context);
+    const service = await initializeAIService();
+    const response = await service.processMessage(message, userId, context);
 
     res.json({
       success: true,
       data: {
         response: response.message,
         confidence: response.confidence,
-        recommendations: response.recommendations,
+        recommendations: response.recommendations || [],
         metadata: {
-          usedKnowledge: response.usedKnowledge,
-          nextState: response.nextState,
+          usedKnowledge: response.usedKnowledge || {},
+          nextState: response.nextState || 'continue',
           timestamp: new Date().toISOString()
         }
       }
@@ -43,7 +62,8 @@ router.post('/message', validateChatMessage, async (req: Request, res: Response)
 router.get('/history/:userId', async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const context = aiService.getConversationContext(userId);
+    const service = await initializeAIService();
+    const context = service.getConversationContext ? service.getConversationContext(userId) : {};
 
     res.json({
       success: true,

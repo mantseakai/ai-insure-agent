@@ -3,6 +3,9 @@ import chatRoutes from './chat';
 import leadsRoutes from './leads';
 import enhancedChatRoutes from './enhanced-chat';
 import whatsappRoutes from './whatsapp';
+import genericChatRoutes from './genericInsuranceChat';
+import wineChatRoutes from './wineRetailChat';
+import pensionChatRoutes from './pensionChat';
 
 
 
@@ -10,7 +13,9 @@ const router = Router();
 
 // Register all route modules
 router.use('/chat/v2', enhancedChatRoutes);  // New V2 routes
-router.use('/chat', chatRoutes);
+//router.use('/chat', chatRoutes);
+//router.use('/chat', genericChatRoutes);
+router.use('/chat', pensionChatRoutes);
 router.use('/leads', leadsRoutes);
 router.use('/whatsapp', whatsappRoutes);     // WhatsApp routes
 
