@@ -15,7 +15,9 @@ const router = Router();
 router.use('/chat/v2', enhancedChatRoutes);  // New V2 routes
 //router.use('/chat', chatRoutes);
 //router.use('/chat', genericChatRoutes);
-router.use('/chat', pensionChatRoutes);
+router.use('/chat', genericChatRoutes);
+router.use('/wine', wineChatRoutes);   
+router.use('/pension', pensionChatRoutes);     // Wine retail chat routes
 router.use('/leads', leadsRoutes);
 router.use('/whatsapp', whatsappRoutes);     // WhatsApp routes
 
